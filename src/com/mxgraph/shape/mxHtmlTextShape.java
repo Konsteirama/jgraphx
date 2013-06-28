@@ -9,6 +9,7 @@ import java.awt.Rectangle;
 import java.util.Map;
 
 import javax.swing.CellRendererPane;
+import javax.swing.JLabel;
 
 import com.mxgraph.canvas.mxGraphics2DCanvas;
 import com.mxgraph.util.mxConstants;
@@ -73,8 +74,7 @@ public class mxHtmlTextShape implements mxITextShape
 	public void paintShape(mxGraphics2DCanvas canvas, String text,
 			mxCellState state, Map<String, Object> style)
 	{
-		mxLightweightLabel textRenderer = mxLightweightLabel
-				.getSharedInstance();
+		JLabel textRenderer = mxUtils.getDefaultTextRenderer();
 		CellRendererPane rendererPane = canvas.getRendererPane();
 		Rectangle rect = state.getLabelBounds().getRectangle();
 		Graphics2D g = canvas.getGraphics();

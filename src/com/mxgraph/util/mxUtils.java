@@ -41,6 +41,7 @@ import java.util.Stack;
 import java.util.TreeSet;
 
 import javax.imageio.ImageIO;
+import javax.swing.JLabel;
 import javax.swing.text.html.HTMLDocument;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -97,6 +98,18 @@ public class mxUtils
 			// ignore
 		}
 	}
+
+    private static JLabel _defaultTextRenderer = mxLightweightLabel
+            .getSharedInstance();
+
+    public static JLabel getDefaultTextRenderer(){
+        return _defaultTextRenderer;
+    }
+
+    public static void setDefaultTextRenderer(JLabel defaultTextRenderer){
+        _defaultTextRenderer = defaultTextRenderer;
+    }
+
 
 	/**
 	 * Returns the size for the given label. If isHtml is true then any HTML
@@ -339,8 +352,20 @@ public class mxUtils
 	public static mxRectangle getSizeForString(String text, Font font,
 			double scale)
 	{
+
 		FontRenderContext frc = new FontRenderContext(null, false, false);
 		font = font.deriveFont((float) (font.getSize2D() * scale));
+
+        JLabel textRenderer = getDefaultTextRenderer();
+
+        if(textRenderer != null)
+        {
+            textRenderer.setText(text);
+            textRenderer.setFont(font);
+            Dimension size = textRenderer.getPreferredSize();
+            return new mxRectangle(0,0,size.getWidth(), size.getHeight());
+        }
+        else{
 		FontMetrics metrics = null;
 
 		if (fontGraphics != null)
@@ -391,6 +416,7 @@ public class mxUtils
 		}
 
 		return new mxRectangle(boundingBox);
+        }
 	}
 
 	/**
@@ -569,8 +595,7 @@ public class mxUtils
 	public static mxRectangle getSizeForHtml(String markup,
 			Map<String, Object> style, double scale, double wrapWidth)
 	{
-		mxLightweightLabel textRenderer = mxLightweightLabel
-				.getSharedInstance();
+		JLabel textRenderer = getDefaultTextRenderer();
 
 		if (textRenderer != null)
 		{

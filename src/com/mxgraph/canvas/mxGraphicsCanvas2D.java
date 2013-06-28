@@ -833,7 +833,7 @@ public class mxGraphicsCanvas2D implements mxICanvas2D
 	 */
 	protected JLabel getTextRenderer()
 	{
-		return mxLightweightLabel.getSharedInstance();
+		return mxUtils.getDefaultTextRenderer();
 	}
 
 	/**

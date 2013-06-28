@@ -97,7 +97,7 @@ public class mxDefaultTextShape implements mxITextShape
 
 			// Draws the text line by line
 			String[] lines = text.split("\n");
-			
+
 			for (int i = 0; i < lines.length; i++)
 			{
 				int dx = 0;
